@@ -1,0 +1,70 @@
+"""Define utilities to create and configure a connexion app."""
+import os
+
+import connexion
+from connexion.resolver import RestyResolver
+
+# from flask_cors import CORS
+from swagger_ui_bundle import swagger_ui_3_path
+from werkzeug.utils import import_string
+
+
+def from_object(obj):
+    """
+    Update the values from the given object.
+
+    An object can be of one of the following two types:
+    -   a string: in this case the object with that name will be imported
+    -   an actual object reference: that object is used directly
+    Objects are usually either modules or classes. :meth:`from_object`
+    loads only the uppercase attributes of the module/class. A ``dict``
+    object will not work with :meth:`from_object` because the keys of a
+    ``dict`` are not attributes of the ``dict`` class.
+    Example of module-based configuration::
+        app.config.from_object('yourapplication.default_config')
+        from yourapplication import default_config
+        app.config.from_object(default_config)
+    You should not use this function to load the actual configuration but
+    rather configuration defaults.  The actual config should be loaded
+    with :meth:`from_pyfile` and ideally from a location not within the
+    package because the package might be installed system wide.
+    See :ref:`config-dev-prod` for an example of class-based configuration
+    using :meth:`from_object`.
+    :param obj: an import name or object
+    """
+    obj = import_string(obj)
+    d = {key: getattr(obj, key) for key in dir(obj) if key.isupper()}
+    return d
+
+
+def get_settings():
+    """Retrieve the application settings."""
+    settings_module = os.environ["CONNEXION_SETTINGS_MODULE"]
+    settings = from_object(settings_module)
+    return settings
+
+
+def create_connexion_app():
+    """Create and configure a connexion app."""
+    settings = get_settings()
+    app_options = {
+        "import_name": __name__,
+        "port": settings["PORT"],
+        "specification_dir": settings["SPECIFICATION_DIR"],
+        "debug": settings["DEBUG"],
+        "options": {"swagger_ui": True, "swagger_path": swagger_ui_3_path,},
+    }
+
+    app = connexion.AioHttpApp(**app_options)
+
+    # Add the specification file.
+    app.add_api(
+        settings["SPECIFICATION_FILE"],
+        resolver=RestyResolver(settings["RESOLVER_MODULE_NAME"]),
+        base_path="/api",
+    )
+
+    # Add CORS support.
+    # CORS(app.app)
+
+    return app
