@@ -9,7 +9,6 @@ python = "^3.8"
 connexion = {extras = ["aiohttp", "swagger-ui"], version = "^2.7.0"}
 SQLAlchemy = "^1.3.17"
 alembic = "^1.4.2"
-# OpenAPI-SQLAlchemy = "^0.7.0"
 aiohttp = "^3.6.2"
 aiohttp_jinja2 = "^1.2.0"
 gunicorn = "^20.0.4"
@@ -17,6 +16,7 @@ loguru = "^0.5.1"
 tenacity = "^6.2.0"
 uvloop = "^0.14.0"
 OpenAlchemy = {extras = ["yaml"], version = "^1.2.0"}
+ujson = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

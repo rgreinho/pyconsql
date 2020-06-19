@@ -3,12 +3,12 @@ from pathlib import Path
 from open_alchemy import init_yaml
 from sqlalchemy.ext.declarative import declarative_base
 
-from pyconsql import database
 from pyconsql import connexion_utils
-from pyconsql.api.model.pet import Pet
+from pyconsql import database
+from pyconsql import models
 
-# Initializing database.
-database.Base.metadata.create_all(bind=database.get_engine())
+
+# Generate models.
 settings = connexion_utils.get_settings()
 specification_file = (
     Path(settings["BASE_DIR"]) / "openapi" / settings["SPECIFICATION_FILE"]

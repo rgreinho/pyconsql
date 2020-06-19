@@ -33,7 +33,3 @@ def get_session():
 
 
 Base = declarative_base()
-session = get_session()
-dir(session)
-Base.query = session.query_property()
-Base.metadata.create_all(bind=get_engine())

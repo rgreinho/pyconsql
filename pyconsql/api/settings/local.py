@@ -14,6 +14,5 @@ else:
     SPECIFICATION_DIR = os.path.join(BASE_DIR, environment_based_spec_dir)  # noqa: F405
 
 DATABASE = {
-    # "URI": "sqlite://",
     "URI": "sqlite:///petstore.db",
 }

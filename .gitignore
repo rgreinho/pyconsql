@@ -17,6 +17,7 @@
 .eggs/
 .idea/
 .installed.cfg
+.hypothesis
 .nox/
 .tox/
 .venv/
@@ -35,6 +36,7 @@ lib/
 lib64/
 nosetests.xml
 parts/
+petstore.db
 pip-delete-this-directory.txt
 pip-log.txt
 profile.svg

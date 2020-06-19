@@ -24,9 +24,14 @@ local-api: ## Run connexion locally
 
 .PHONY: make_migrations
 make_migrations: ## Make new migrations
-	NEXT_ID=$(shell ls alembic/versions/ | grep -c *.py)
-	poetry run alembic revision --autogenerate -m "$(M)" --rev-id=`printf "%04d" ${NEXT_ID}`
+	NEXT_ID=$(shell ls alembic/versions/ | grep -c -e "\.py$$")
+	poetry run alembic revision --autogenerate --rev-id=`printf "%04d" ${NEXT_ID}` -m "$(M)"
 
 .PHONY: migrate
 migrate: ## Apply migrations
 	poetry run alembic upgrade head
+
+.PHONY: cleanup
+cleanup: ## Delete the database and the migrations.
+	rm -fr ./alembic/versions/*
+	rm -fr petstore.db
