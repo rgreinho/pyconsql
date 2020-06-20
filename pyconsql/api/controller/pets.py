@@ -18,7 +18,8 @@ def search(limit=100):
 
 def get(petId):
     # Performs the query from the model object.
-    pet = models.Pet.query.filter_by(id=petId).first()
+    #  models.Pet.query.filter_by(id=petId).first()
+    pet = db_session.query(models.Pet).filter_by(id=petId).first()
     return pet.to_dict() if pet is not None else ("Not found", 404)
 
 
