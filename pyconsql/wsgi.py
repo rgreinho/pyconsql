@@ -5,7 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from pyconsql import connexion_utils
 from pyconsql import database
-from pyconsql import models
 
 
 # Generate models.
