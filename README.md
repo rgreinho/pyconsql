@@ -108,7 +108,7 @@ make cleanup
 
 It starts to get hard to obtain better performance using Python, but here are some pointers to push asyncio to its limits:
 
-* Use [async](https://github.com/MagicStack/asyncpg) to handle PostgreSQL.
+* Use [asyncpg](https://github.com/MagicStack/asyncpg) to handle PostgreSQL.
   * It only works with [SQL Alchemy Core](https://docs.sqlalchemy.org/en/13/core/) though, therefore there may be some adjutsments to make to still be able to use Open Alchemy.
 * Use the [aio-libs](https://github.com/aio-libs) whenever possible.
 * Check the [aiohttp extensions](https://docs.aiohttp.org/en/stable/third_party.html#aiohttp-extensions).
