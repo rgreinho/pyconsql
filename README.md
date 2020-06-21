@@ -89,3 +89,30 @@ Destroy the DB and associated migrations:
 ```bash
 make cleanup
 ```
+
+## What's needed to make it production ready
+
+* Improve the configuration system
+  * Parameters should have sensible default values
+  * All the parameters that can be inferred or calculated should be inferred or calculated (i.e. the specfile path)
+* Remove GUnicorn
+  * Although it does not bring much overhead, it is not needed by modern application frameworks and the scaling/healthcheck/restart will be handled by kubernetes
+* Use ultra fast libraries
+  * Replace the default event loop with UVLoop
+* Replace the Makefile with [Invoke](https://www.pyinvoke.org/) tasks
+* Create a nice template
+  * Cookiecutter (?)
+  * Only the name of the app should be required
+
+## Can I push it even further?
+
+It starts to get hard to obtain better performance using Python, but here are some pointers to push asyncio to its limits:
+
+* Use [async](https://github.com/MagicStack/asyncpg) to handle PostgreSQL.
+  * It only works with [SQL Alchemy Core](https://docs.sqlalchemy.org/en/13/core/) though, therefore there may be some adjutsments to make to still be able to use Open Alchemy.
+* Use the [aio-libs](https://github.com/aio-libs) whenever possible.
+* Check the [aiohttp extensions](https://docs.aiohttp.org/en/stable/third_party.html#aiohttp-extensions).
+
+## I still need more
+
+Use Go or Rust!
