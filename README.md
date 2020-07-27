@@ -97,6 +97,8 @@ make cleanup
   * All the parameters that can be inferred or calculated should be inferred or calculated (i.e. the specfile path)
 * Remove GUnicorn
   * Although it does not bring much overhead, it is not needed by modern application frameworks and the scaling/healthcheck/restart will be handled by kubernetes
+* Share the DB connection between controllers, via the connexion app
+  * This is not official supported, but here is anice workaround: [Share a DB connexion when using aiohttp backend](https://github.com/zalando/connexion/issues/833)
 * Use ultra fast libraries
   * Replace the default event loop with UVLoop
 * Replace the Makefile with [Invoke](https://www.pyinvoke.org/) tasks
