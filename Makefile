@@ -11,6 +11,13 @@ TAG ?= $(shell git describe)
 # Misc.
 TOPDIR = $(shell git rev-parse --show-toplevel)
 
+.PHONY: help
+help: # Display help
+	@awk -F ':|##' \
+		'/^[^\t].+?:.*?##/ {\
+			printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF \
+		}' $(MAKEFILE_LIST) | sort
+
 .PHONY: local-api
 local-api: ## Run connexion locally
 	export CONNEXION_SETTINGS_MODULE=$(PROJECT_NAME).api.settings.local \
@@ -22,10 +29,10 @@ local-api: ## Run connexion locally
 		--worker-class aiohttp.GunicornUVLoopWebWorker \
 		$(PROJECT_NAME).wsgi
 
-.PHONY: make_migrations
-make_migrations: ## Make new migrations
-	NEXT_ID=$(shell ls alembic/versions/ | grep -c -e "\.py$$")
-	poetry run alembic revision --autogenerate --rev-id=`printf "%04d" ${NEXT_ID}` -m "$(M)"
+.PHONY: migrations
+migrations: ## Make new migrations
+	NEXT_ID=$(shell ls alembic/versions/ | grep -c -e "\.py$$") \
+	&& poetry run alembic revision --autogenerate --rev-id=`printf "%04d" $${NEXT_ID}` -m "$(M)"
 
 .PHONY: migrate
 migrate: ## Apply migrations
