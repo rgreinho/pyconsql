@@ -21,13 +21,7 @@ help: # Display help
 .PHONY: local-api
 local-api: ## Run connexion locally
 	export CONNEXION_SETTINGS_MODULE=$(PROJECT_NAME).api.settings.local \
-	&& poetry run gunicorn \
-		--reload \
-		--timeout 1800 \
-		--log-level debug \
-		-b 0.0.0.0:8000 \
-		--worker-class aiohttp.GunicornUVLoopWebWorker \
-		$(PROJECT_NAME).wsgi
+	&& poetry run python pyconsql/main.py
 
 .PHONY: migrations
 migrations: ## Make new migrations
