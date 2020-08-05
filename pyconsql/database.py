@@ -20,7 +20,6 @@ def get_engine():
     if sql_engine:
         return sql_engine
     db_settings = get_db_settings()
-    print(db_settings)
     sql_engine = sqlalchemy.create_engine(db_settings["URI"], echo=True)
     return sql_engine
 
