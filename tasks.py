@@ -64,7 +64,13 @@ def publish_packages(c):
 def local_api(c):
     """Run Connexion locally."""
     c.run(
-        "poetry run python pyconsql/main.py",
+        "poetry run gunicorn "
+        "--reload "
+        "--timeout 1800 "
+        "--log-level debug "
+        "-b 0.0.0.0:8000 "
+        "--worker-class aiohttp.GunicornUVLoopWebWorker "
+        f"{PROJECT}.wsgi",
         env={"CONNEXION_SETTINGS_MODULE": f"{PROJECT}.api.settings.local"},
     )
 

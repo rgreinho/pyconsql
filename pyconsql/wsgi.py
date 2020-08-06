@@ -18,4 +18,4 @@ init_yaml(
 
 # Start the API.
 app = connexion_utils.create_connexion_app()
-app.run()
+application = app.app
