@@ -1,3 +1,4 @@
+import datetime
 import os
 from pathlib import Path
 
@@ -91,8 +92,8 @@ def migrate(c):
 def migrations(c, message):
     """Make new migrations."""
     migration_dir = Path("alembic/versions/")
-    migration_count = len(list(migration_dir.glob("*.py")))
+    now = datetime.datetime.now()
     c.run(
         "poetry run alembic revision --autogenerate "
-        f'--rev-id={migration_count:04d} -m "{message}"'
+        f'--rev-id={now:%Y%m%d%H%M%S} -m "{message}"'
     )
